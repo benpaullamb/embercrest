@@ -1,4 +1,4 @@
-import { Bodies, Body, Composite } from 'matter-js';
+import { Bodies, Body, Composite, Vector } from 'matter-js';
 
 interface BlockOptions extends Matter.IChamferableBodyDefinition {
   x: number;
@@ -44,5 +44,10 @@ export default class Block {
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.restore();
+  }
+
+  applyForce(x: number, y: number) {
+    const force = Vector.create(x, y);
+    Body.applyForce(this.body, this.body.position, force);
   }
 }
