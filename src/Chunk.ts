@@ -10,6 +10,7 @@ export default class Chunk {
   public static readonly WIDTH = 64;
   private static readonly SAMPLE_SCALE = 0.025;
   private static readonly AMPLITUDE = 15;
+  public static readonly WATER_LEVEL = 5;
 
   public blocks: Block[];
   private heightMap: number[];
@@ -24,7 +25,8 @@ export default class Chunk {
 
     const grassBlocks = this.generateGrass();
     const dirtBlocks = this.generateDirt();
-    this.blocks = [...grassBlocks, ...dirtBlocks];
+    const waterBlocks = this.generateWater();
+    this.blocks = [...grassBlocks, ...dirtBlocks, ...waterBlocks];
   }
 
   private generateHeightMap(): number[] {
@@ -75,6 +77,27 @@ export default class Chunk {
         blocks.push(block);
       }
     });
+    return blocks;
+  }
+
+  private generateWater(): Block[] {
+    const blocks: Block[] = [];
+
+    this.heightMap.forEach((height, x) => {
+      const worldBlockX = this.chunkNumber * Chunk.WIDTH + x;
+
+      for (let y = height + 1; y <= Chunk.WATER_LEVEL; y++) {
+        const block = new Block({
+          x: worldBlockX,
+          y,
+          color: 'blue',
+          isStatic: true
+        });
+
+        blocks.push(block);
+      }
+    });
+
     return blocks;
   }
 }
