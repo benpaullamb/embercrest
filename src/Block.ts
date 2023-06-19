@@ -7,31 +7,37 @@ interface BlockOptions extends Matter.IChamferableBodyDefinition {
 }
 
 export default class Block {
-  static readonly SIZE = 20;
+  public static readonly SIZE = 20;
 
-  body: Body;
-  color: string;
+  public body: Body;
+  public color: string;
 
   constructor({ x, y, color, ...bodyOptions }: BlockOptions) {
     const { canvas } = window;
+
+    const halfBlock = Block.SIZE / 2;
+    const pxX = x * Block.SIZE;
+    const pxY = y * Block.SIZE;
+
     this.body = Bodies.rectangle(
-      Block.SIZE / 2 + x * Block.SIZE,
-      canvas.height - Block.SIZE / 2 - y * Block.SIZE,
+      halfBlock + pxX,
+      canvas.height - halfBlock - pxY,
       Block.SIZE,
       Block.SIZE,
       bodyOptions
     );
+
     this.color = color;
 
     Composite.add(window.world, this.body);
     window.blocks.push(this);
   }
 
-  update() {
+  public update() {
     this.render();
   }
 
-  render() {
+  private render() {
     const { ctx } = window;
     ctx.save();
     ctx.beginPath();
@@ -46,7 +52,7 @@ export default class Block {
     ctx.restore();
   }
 
-  applyForce(x: number, y: number) {
+  public applyForce(x: number, y: number) {
     const force = Vector.create(x, y);
     Body.applyForce(this.body, this.body.position, force);
   }

@@ -12,7 +12,7 @@ export default class Camera {
     this.player = player;
   }
 
-  centre() {
+  public centre() {
     const { canvas, world } = window;
     const distFromRight = canvas.width - this.player.body.position.x;
     const distFromLeft = this.player.body.position.x;

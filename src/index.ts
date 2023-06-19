@@ -1,9 +1,10 @@
 import './index.css';
 import { Engine, World } from 'matter-js';
-import Block from 'Block';
-import Terrain from 'Terrain';
-import Player from 'Player';
 import { updateInput } from 'Input';
+import Block from 'Block';
+import Player from 'Player';
+import Chunk from 'Chunk';
+import { createNoise2D } from 'simplex-noise';
 
 declare global {
   interface Window {
@@ -11,6 +12,7 @@ declare global {
     ctx: CanvasRenderingContext2D;
     world: World;
     blocks: Block[];
+    player: Player;
   }
 }
 
@@ -19,9 +21,9 @@ window.ctx = window.canvas.getContext('2d')!;
 const engine = Engine.create();
 window.world = engine.world;
 window.blocks = [];
+window.player = new Player();
 
-new Terrain();
-new Player();
+new Chunk({ chunkNumber: 0, noise: createNoise2D() });
 
 (function render() {
   const { ctx, canvas, blocks } = window;

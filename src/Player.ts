@@ -3,7 +3,7 @@ import Camera from 'Camera';
 import Input from 'Input';
 
 export default class Player extends Block {
-  camera: Camera;
+  private camera: Camera;
 
   constructor() {
     super({ x: 0, y: 12, color: 'red' });
@@ -11,7 +11,7 @@ export default class Player extends Block {
     this.camera = new Camera({ player: this });
   }
 
-  update() {
+  public update() {
     if (Input.getKey('w')) {
       this.applyForce(0, -0.001);
     }
