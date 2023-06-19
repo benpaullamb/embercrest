@@ -49,7 +49,7 @@ export default class Chunk {
 
   private generateGrass(): Block[] {
     return this.heightMap.map((height, x) => {
-      const worldBlockX = this.chunkNumber * Chunk.WIDTH + x;
+      const worldBlockX = this.toWorldBlockX(x);
 
       return new Block({
         x: worldBlockX,
@@ -64,7 +64,7 @@ export default class Chunk {
     const blocks: Block[] = [];
 
     this.heightMap.forEach((height, x) => {
-      const worldBlockX = this.chunkNumber * Chunk.WIDTH + x;
+      const worldBlockX = this.toWorldBlockX(x);
 
       for (let y = 0; y < height; y++) {
         const block = new Block({
@@ -84,7 +84,7 @@ export default class Chunk {
     const blocks: Block[] = [];
 
     this.heightMap.forEach((height, x) => {
-      const worldBlockX = this.chunkNumber * Chunk.WIDTH + x;
+      const worldBlockX = this.toWorldBlockX(x);
 
       for (let y = height + 1; y <= Chunk.WATER_LEVEL; y++) {
         const block = new Block({
@@ -99,5 +99,9 @@ export default class Chunk {
     });
 
     return blocks;
+  }
+
+  public toWorldBlockX(chunkBlockX: number): number {
+    return this.chunkNumber * Chunk.WIDTH + chunkBlockX;
   }
 }

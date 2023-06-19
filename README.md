@@ -9,7 +9,7 @@ Core
 - [x] Chunks
 - [x] Camera (static jump)
 - [x] Finite island
-- [ ] Water
+- [ ] Water - water block, lakes, oceans
 - [ ] Sun
 - [ ] Clouds
 - [ ] Walking & jumping
