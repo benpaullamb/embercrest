@@ -8,8 +8,8 @@ interface ChunkOptions {
 
 export default class Chunk {
   public static readonly WIDTH = 64;
-  private static readonly SAMPLE_SCALE = 0.05;
-  private static readonly AMPLITUDE = 10;
+  private static readonly SAMPLE_SCALE = 0.025;
+  private static readonly AMPLITUDE = 15;
 
   public blocks: Block[];
   private heightMap: number[];
