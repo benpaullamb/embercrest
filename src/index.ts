@@ -3,8 +3,7 @@ import { Engine, World } from 'matter-js';
 import { updateInput } from 'Input';
 import Block from 'Block';
 import Player from 'Player';
-import Chunk from 'Chunk';
-import { createNoise2D } from 'simplex-noise';
+import Level from 'Level';
 
 declare global {
   interface Window {
@@ -23,7 +22,7 @@ window.world = engine.world;
 window.blocks = [];
 window.player = new Player();
 
-new Chunk({ chunkNumber: 0, noise: createNoise2D() });
+new Level({ width: 10 });
 
 (function render() {
   const { ctx, canvas, blocks } = window;

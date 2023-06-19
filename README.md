@@ -6,9 +6,9 @@ SAO Aincrad-style game
 
 Core
 
-- [ ] Chunks
+- [x] Chunks
 - [x] Camera (static jump)
-- [ ] Finite island
+- [x] Finite island
 - [ ] Water
 - [ ] Sun
 - [ ] Clouds

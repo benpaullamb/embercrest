@@ -11,15 +11,20 @@ export default class Chunk {
   private static readonly SAMPLE_SCALE = 0.05;
   private static readonly AMPLITUDE = 10;
 
+  public blocks: Block[];
+  private heightMap: number[];
   private chunkNumber: number;
   private noise: NoiseFunction2D;
-  private heightMap: number[];
 
   constructor({ chunkNumber, noise }: ChunkOptions) {
     this.chunkNumber = chunkNumber;
     this.noise = noise;
+
     this.heightMap = this.generateHeightMap();
-    this.generateGrass();
+
+    const grassBlocks = this.generateGrass();
+    const dirtBlocks = this.generateDirt();
+    this.blocks = [...grassBlocks, ...dirtBlocks];
   }
 
   private generateHeightMap(): number[] {
@@ -27,7 +32,6 @@ export default class Chunk {
     const baseSampleX = this.chunkNumber * Chunk.WIDTH * Chunk.SAMPLE_SCALE;
     const halfAmplitude = Chunk.AMPLITUDE / 2;
 
-    // For each block
     for (let block = 0; block < Chunk.WIDTH; block++) {
       const chunkSampleX = block * Chunk.SAMPLE_SCALE;
       const worldSampleX = baseSampleX + chunkSampleX;
@@ -44,6 +48,7 @@ export default class Chunk {
   private generateGrass(): Block[] {
     return this.heightMap.map((height, x) => {
       const worldBlockX = this.chunkNumber * Chunk.WIDTH + x;
+
       return new Block({
         x: worldBlockX,
         y: height,
@@ -53,18 +58,23 @@ export default class Chunk {
     });
   }
 
-  // generateDirt(startX: number, heightMap: number[]) {
-  //   heightMap.forEach((y, x) => {
-  //     for (let i = 0; i < y; i++) {
-  //       new Block({
-  //         x: startX + x,
-  //         y: i,
-  //         color: 'brown',
-  //         isStatic: true,
-  //         timeScale: 0,
-  //         slop: 0
-  //       });
-  //     }
-  //   });
-  // }
+  private generateDirt(): Block[] {
+    const blocks: Block[] = [];
+
+    this.heightMap.forEach((height, x) => {
+      const worldBlockX = this.chunkNumber * Chunk.WIDTH + x;
+
+      for (let y = 0; y < height; y++) {
+        const block = new Block({
+          x: worldBlockX,
+          y,
+          color: 'brown',
+          isStatic: true
+        });
+
+        blocks.push(block);
+      }
+    });
+    return blocks;
+  }
 }
