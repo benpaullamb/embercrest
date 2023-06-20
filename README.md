@@ -6,12 +6,14 @@ SAO Aincrad-style game
 
 Core
 
+- [ ] Game name: Embercrest?
 - [x] Chunks
 - [x] Camera (static jump)
 - [x] Finite island
-- [ ] Water - water block, lakes, oceans
-- [ ] Sun
+- [x] Water - water block, lakes
+- [x] Sun
 - [ ] Clouds
+- [ ] Walls & ceiling
 - [ ] Walking & jumping
 - [ ] Bending
 - [ ] Enemies & health

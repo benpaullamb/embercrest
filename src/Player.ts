@@ -6,7 +6,7 @@ export default class Player extends Block {
   private camera: Camera;
 
   constructor() {
-    super({ x: 0, y: 12, color: 'red' });
+    super({ x: 10, y: 200, color: 'red' });
 
     this.camera = new Camera({ player: this });
   }

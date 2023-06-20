@@ -1,43 +1,36 @@
+import Rect from 'Rect';
 import { Bodies, Body, Composite, Vector } from 'matter-js';
 
 interface BlockOptions extends Matter.IChamferableBodyDefinition {
   x: number;
   y: number;
   color: string;
+  size?: number;
 }
 
-export default class Block {
-  public static readonly SIZE = 20;
-
+export default class Block extends Rect {
   public body: Body;
-  public color: string;
 
-  constructor({ x, y, color, ...bodyOptions }: BlockOptions) {
+  public get x() {
+    return this.body.position.x;
+  }
+  private set x(_) {}
+  public get y() {
+    return this.body.position.y;
+  }
+  private set y(_) {}
+
+  public static SIZE = 20;
+
+  constructor({ x, y, size, color, ...bodyOptions }: BlockOptions) {
+    super({ x, y, size, color });
+
     const { canvas } = window;
-
-    const halfBlock = Block.SIZE / 2;
-    const pxX = x * Block.SIZE;
-    const pxY = y * Block.SIZE;
-
-    this.body = Bodies.rectangle(
-      halfBlock + pxX,
-      canvas.height - halfBlock - pxY,
-      Block.SIZE,
-      Block.SIZE,
-      bodyOptions
-    );
-
-    this.color = color;
-
+    this.body = Bodies.rectangle(x, canvas.height - y, this.size, this.size, bodyOptions);
     Composite.add(window.world, this.body);
-    window.blocks.push(this);
   }
 
-  public update() {
-    this.render();
-  }
-
-  private render() {
+  protected render() {
     const { ctx } = window;
     ctx.save();
     ctx.beginPath();

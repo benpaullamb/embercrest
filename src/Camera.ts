@@ -14,8 +14,8 @@ export default class Camera {
 
   public centre() {
     const { canvas, world } = window;
-    const distFromRight = canvas.width - this.player.body.position.x;
-    const distFromLeft = this.player.body.position.x;
+    const distFromRight = canvas.width - this.player.x;
+    const distFromLeft = this.player.x;
 
     if (distFromRight < 0) {
       Composite.translate(world, Vector.create(-window.canvas.width, 0));
