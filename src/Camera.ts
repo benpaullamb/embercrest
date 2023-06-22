@@ -1,8 +1,14 @@
+import Chunk from 'Chunk';
 import Player from 'Player';
 import { Composite, Vector } from 'matter-js';
 
 interface CameraOptions {
   player: Player;
+}
+
+enum Direction {
+  LEFT,
+  RIGHT
 }
 
 export default class Camera {
@@ -12,15 +18,21 @@ export default class Camera {
     this.player = player;
   }
 
-  public centre() {
-    const { canvas, world } = window;
-    const distFromRight = canvas.width - this.player.x;
-    const distFromLeft = this.player.x;
+  public update() {
+    this.centre();
+  }
 
-    if (distFromRight < 0) {
-      Composite.translate(world, Vector.create(-window.canvas.width, 0));
-    } else if (distFromLeft < 0) {
-      Composite.translate(world, Vector.create(window.canvas.width, 0));
+  private centre() {
+    if (this.player.x < 0) {
+      this.moveScreen(Direction.LEFT);
+    } else if (this.player.x > Chunk.WIDTH) {
+      this.moveScreen(Direction.RIGHT);
     }
+  }
+
+  private moveScreen(dir: Direction) {
+    const { world, canvas } = window;
+    const value = dir === Direction.LEFT ? canvas.width : -canvas.width;
+    Composite.translate(world, Vector.create(value, 0));
   }
 }

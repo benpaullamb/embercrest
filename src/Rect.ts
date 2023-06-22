@@ -1,49 +1,39 @@
+import { descY } from 'utils';
+
 export interface RectOptions {
   x: number;
   y: number;
+  width: number;
+  height: number;
   color: string;
-  size?: number;
 }
 
 export default class Rect {
-  public size = 20;
-  public color: string;
-  private _x: number;
-  private _y: number;
+  private x: number;
+  private y: number;
+  private width: number;
+  private height: number;
+  private color: string;
 
-  public get x() {
-    return this._x;
-  }
-  public set x(value: number) {
-    this._x = value;
-  }
-  public get y() {
-    return this._y;
-  }
-  public set y(value: number) {
-    const { canvas } = window;
-    this._y = canvas.height - value;
-  }
-
-  constructor({ x, y, color, size }: RectOptions) {
-    this._x = x;
-    const { canvas } = window;
-    this._y = canvas.height - y;
-
+  constructor({ x, y, width, height, color }: RectOptions) {
+    this.x = x;
+    this.y = descY(y);
+    this.width = width;
+    this.height = height;
     this.color = color;
-    if (size) this.size = size;
   }
 
   public update() {
     this.render();
   }
 
-  protected render() {
+  private render() {
     const { ctx } = window;
     ctx.save();
 
-    const halfSize = this.size / 2;
-    ctx.rect(this.x - halfSize, this.y - halfSize, this.size, this.size);
+    const halfWidth = this.width / 2;
+    const halfHeight = this.height / 2;
+    ctx.rect(this.x - halfWidth, this.y - halfHeight, this.width, this.height);
 
     ctx.fillStyle = this.color;
     ctx.fill();

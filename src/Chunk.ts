@@ -1,8 +1,8 @@
+import { NoiseFunction2D } from 'simplex-noise';
 import Block from 'Block';
 import Dirt from 'blocks/Dirt';
 import Grass from 'blocks/Grass';
 import Water from 'blocks/Water';
-import { NoiseFunction2D } from 'simplex-noise';
 
 interface ChunkOptions {
   chunkNumber: number;
@@ -11,11 +11,12 @@ interface ChunkOptions {
 
 export default class Chunk {
   public static readonly WIDTH = 64;
-  private static readonly SAMPLE_SCALE = 0.025;
-  private static readonly AMPLITUDE = 300;
-  public static readonly WATER_LEVEL = 5;
 
-  public blocks: Block[];
+  private static readonly WATER_LEVEL = 5;
+  private static readonly SAMPLE_SCALE = 0.02;
+  private static readonly AMPLITUDE = 20;
+
+  private blocks: Block[];
   private heightMap: number[];
   private chunkNumber: number;
   private noise: NoiseFunction2D;
@@ -36,8 +37,8 @@ export default class Chunk {
     this.blocks.forEach(block => block.update());
   }
 
-  public toWorldSpace(chunkBlockX: number): number {
-    return (this.chunkNumber * Chunk.WIDTH + chunkBlockX) * Block.SIZE + Block.SIZE / 2;
+  public fromChunkToWorldBlock(chunkX: number): number {
+    return this.chunkNumber * Chunk.WIDTH + chunkX;
   }
 
   private generateHeightMap(): number[] {
@@ -51,17 +52,16 @@ export default class Chunk {
 
       const height = this.noise(worldSampleX, 0);
       const positiveHeight = height * halfAmplitude + halfAmplitude;
-      const blockyHeight = Math.floor(positiveHeight / Block.SIZE) * Block.SIZE;
-      const offsetHeight = blockyHeight + Block.SIZE / 2;
-      heightMap.push(offsetHeight);
+      const wholeHeight = Math.round(positiveHeight);
+      heightMap.push(wholeHeight);
     }
 
     return heightMap;
   }
 
   private generateGrass(): Grass[] {
-    return this.heightMap.map((height, x) => {
-      const worldX = this.toWorldSpace(x);
+    return this.heightMap.map((height, chunkX) => {
+      const worldX = this.fromChunkToWorldBlock(chunkX);
       return new Grass({ x: worldX, y: height });
     });
   }
@@ -69,27 +69,24 @@ export default class Chunk {
   private generateDirt(): Dirt[] {
     const blocks: Dirt[] = [];
 
-    this.heightMap.forEach((height, x) => {
-      const worldX = this.toWorldSpace(x);
+    this.heightMap.forEach((height, chunkX) => {
+      const worldX = this.fromChunkToWorldBlock(chunkX);
 
-      for (let y = Block.SIZE / 2; y < height; y += Block.SIZE) {
-        const block = new Dirt({ x: worldX, y });
-        blocks.push(block);
+      for (let y = 0; y < height; y++) {
+        blocks.push(new Dirt({ x: worldX, y }));
       }
     });
-
     return blocks;
   }
 
   private generateWater(): Water[] {
     const blocks: Water[] = [];
 
-    this.heightMap.forEach((height, x) => {
-      const worldX = this.toWorldSpace(x);
+    this.heightMap.forEach((height, chunkX) => {
+      const worldX = this.fromChunkToWorldBlock(chunkX);
 
-      for (let y = height + Block.SIZE; y <= Chunk.WATER_LEVEL * Block.SIZE; y += Block.SIZE) {
-        const water = new Water({ x: worldX, y });
-        blocks.push(water);
+      for (let y = height + 1; y <= Chunk.WATER_LEVEL; y++) {
+        blocks.push(new Water({ x: worldX, y }));
       }
     });
 
