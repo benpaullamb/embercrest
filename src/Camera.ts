@@ -23,9 +23,9 @@ export default class Camera {
   }
 
   private centre() {
-    if (this.player.x < 0) {
+    if (this.player.screenX < 0) {
       this.moveScreen(Direction.LEFT);
-    } else if (this.player.x > Chunk.WIDTH) {
+    } else if (this.player.screenX > Chunk.WIDTH) {
       this.moveScreen(Direction.RIGHT);
     }
   }
@@ -33,6 +33,7 @@ export default class Camera {
   private moveScreen(dir: Direction) {
     const { world, canvas } = window;
     const value = dir === Direction.LEFT ? canvas.width : -canvas.width;
+    window.cameraX += value;
     Composite.translate(world, Vector.create(value, 0));
   }
 }

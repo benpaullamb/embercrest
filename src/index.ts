@@ -8,21 +8,24 @@ declare global {
   interface Window {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
+    engine: Engine;
     world: World;
     player: Player;
+    cameraX: number;
+    level: Level;
   }
 }
 
 window.canvas = document.querySelector('#canvas') as HTMLCanvasElement;
 window.ctx = window.canvas.getContext('2d')!;
-const engine = Engine.create();
-window.world = engine.world;
+window.engine = Engine.create();
+window.world = window.engine.world;
+window.level = new Level({ chunkWidth: 5 });
+window.cameraX = 0;
 window.player = new Player();
 
-const level = new Level({ width: 5 });
-
 (function render() {
-  const { ctx, canvas, player } = window;
+  const { ctx, canvas, level, player } = window;
 
   ctx.save();
   ctx.fillStyle = 'lightskyblue';
@@ -33,6 +36,6 @@ const level = new Level({ width: 5 });
   player.update();
 
   updateInput();
-  Engine.update(engine, 1000 / 60);
+  Engine.update(window.engine, 1000 / 60);
   requestAnimationFrame(render);
 })();

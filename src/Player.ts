@@ -13,13 +13,13 @@ export default class Player extends Block {
 
   public update() {
     if (Input.getKey('w')) {
-      this.applyForce(0, -0.001);
+      this.applyForce(0, -0.003);
     }
     if (Input.getKey('a')) {
-      this.applyForce(-0.001, 0);
+      this.applyForce(-0.003, 0);
     }
     if (Input.getKey('d')) {
-      this.applyForce(0.001, 0);
+      this.applyForce(0.003, 0);
     }
 
     super.update();

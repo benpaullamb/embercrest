@@ -9,19 +9,29 @@ interface BlockOptions extends Matter.IChamferableBodyDefinition {
 
 export default class Block {
   public static SIZE = 20;
+
   public get x() {
-    return blockSpace(this.body.position.x);
+    const { cameraX } = window;
+    return blockSpace(this.body.position.x - cameraX);
   }
   public get y() {
     return blockSpace(ascY(this.body.position.y));
   }
 
-  private body: Body;
+  public get screenX() {
+    return blockSpace(this.body.position.x);
+  }
+  public get screenY() {
+    return blockSpace(ascY(this.body.position.y));
+  }
+
+  protected body: Body;
   private color: string;
 
   constructor({ x, y, color, ...bodyOptions }: BlockOptions) {
     this.color = color;
 
+    bodyOptions.mass ??= 1;
     this.body = Bodies.rectangle(
       worldSpace(x + 0.5),
       descY(worldSpace(y + 0.5)),
@@ -36,7 +46,7 @@ export default class Block {
     this.render();
   }
 
-  private render() {
+  protected render() {
     const { ctx } = window;
     ctx.save();
     ctx.beginPath();

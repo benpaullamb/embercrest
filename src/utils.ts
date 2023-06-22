@@ -16,3 +16,13 @@ export function descY(y: number) {
 export function ascY(y: number) {
   return descY(y);
 }
+
+export function topBlock() {
+  const { canvas } = window;
+  return canvas.height / Block.SIZE - 1;
+}
+
+export function rightBlock() {
+  const { canvas } = window;
+  return canvas.width / Block.SIZE - 1;
+}
