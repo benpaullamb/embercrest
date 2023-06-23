@@ -15,8 +15,8 @@ export default class Chunk {
   public static readonly WIDTH = 64;
 
   private static readonly WATER_LEVEL = 5;
-  private static readonly SAMPLE_SCALE = 0.02;
-  private static readonly AMPLITUDE = 20;
+  private static readonly SAMPLE_SCALE = 0.025;
+  private static readonly AMPLITUDE = 15;
 
   private blocks: Block[];
   private chunkNumber: number;

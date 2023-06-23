@@ -3,6 +3,7 @@
     "baseUrl": "./src",
     "moduleResolution": "node",
     "target": "es6",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

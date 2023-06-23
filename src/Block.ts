@@ -12,6 +12,8 @@ interface BlockOptions extends Matter.IChamferableBodyDefinition {
 export default class Block {
   public static SIZE = 20;
 
+  public body: Body;
+
   public get x() {
     const { camera } = window;
     return blockSpace(this.body.position.x - camera.x);
@@ -27,7 +29,6 @@ export default class Block {
     return blockSpace(ascY(this.body.position.y));
   }
 
-  protected body: Body;
   protected width: number;
   protected height: number;
 
@@ -47,11 +48,14 @@ export default class Block {
       bodyOptions
     );
     Composite.add(window.world, this.body);
+    window.blocks.push(this);
   }
 
   public update() {
     this.render();
   }
+
+  public onCollisionStart(block: Block) {}
 
   protected render() {
     const { ctx } = window;
@@ -69,7 +73,7 @@ export default class Block {
   }
 
   public applyForce(x: number, y: number) {
-    const force = Vector.create(x, y);
+    const force = Vector.create(x, -y);
     Body.applyForce(this.body, this.body.position, force);
   }
 
@@ -77,5 +81,9 @@ export default class Block {
     const { camera } = window;
     const position = Vector.create(worldSpace(x) + camera.x, descY(worldSpace(y)));
     Body.setPosition(this.body, position);
+  }
+
+  public setVelocity(x: number, y = -this.body.velocity.y) {
+    Body.setVelocity(this.body, Vector.create(x, -y));
   }
 }

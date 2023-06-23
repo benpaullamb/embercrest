@@ -31,6 +31,6 @@ export default class Cloud extends Block {
 
   private float() {
     const { engine } = window;
-    this.applyForce(this.speed, -engine.gravity.scale * this.body.mass);
+    this.applyForce(this.speed, engine.gravity.scale * this.body.mass);
   }
 }
