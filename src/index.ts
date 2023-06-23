@@ -1,4 +1,4 @@
-import './index.css';
+import './styles/index.css';
 import { Engine, World } from 'matter-js';
 import { updateInput } from 'Input';
 import Player from 'Player';
