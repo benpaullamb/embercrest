@@ -11,8 +11,8 @@ export default class Block {
   public static SIZE = 20;
 
   public get x() {
-    const { cameraX } = window;
-    return blockSpace(this.body.position.x - cameraX);
+    const { camera } = window;
+    return blockSpace(this.body.position.x - camera.x);
   }
   public get y() {
     return blockSpace(ascY(this.body.position.y));

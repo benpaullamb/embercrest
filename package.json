@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -rf ./build && node esbuild.mjs",
-    "dev": "esbuild ./src/index.js --bundle --outfile=./build/out.js --watch"
+    "build:watch": "esbuild ./src/index.js --bundle --outfile=./build/out.js --watch",
+    "dev": "npm run open && npm run build:watch",
+    "open": "npx open-cli C:/Users/benpa/Documents/Projects/world-game/index.html"
   },
   "keywords": [],
   "author": "",
