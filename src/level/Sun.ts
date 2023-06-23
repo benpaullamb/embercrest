@@ -4,7 +4,7 @@ import Rect from 'Rect';
 export default class Sun extends Rect {
   constructor() {
     const { canvas } = window;
-    const size = Block.SIZE * 3;
+    const size = Block.SIZE * 5;
     const halfSize = size / 2;
 
     super({

@@ -10,6 +10,8 @@ interface ChunkOptions {
 }
 
 export default class Chunk {
+  public heightMap: number[];
+
   public static readonly WIDTH = 64;
 
   private static readonly WATER_LEVEL = 5;
@@ -17,7 +19,6 @@ export default class Chunk {
   private static readonly AMPLITUDE = 20;
 
   private blocks: Block[];
-  private heightMap: number[];
   private chunkNumber: number;
   private noise: NoiseFunction2D;
 
