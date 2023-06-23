@@ -13,7 +13,7 @@ Core
 - [x] Water - water block, lakes
 - [x] Sun
 - [x] Clouds
-- [ ] Walls & ceiling
+- [x] Walls & ceiling
 - [ ] Walking & jumping
 - [ ] Bending
 - [ ] Enemies & health
