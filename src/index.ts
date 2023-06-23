@@ -25,7 +25,7 @@ window.ctx = window.canvas.getContext('2d')!;
 window.engine = Engine.create();
 window.world = window.engine.world;
 
-window.level = new Level({ chunkWidth: 5 });
+window.level = new Level({ numChunks: 5 });
 window.player = new Player();
 window.camera = new Camera();
 

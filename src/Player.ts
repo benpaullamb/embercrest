@@ -17,6 +17,10 @@ export default class Player extends Block {
       this.applyForce(0.003, 0);
     }
 
+    if (Input.getKeyDown(' ')) {
+      this.setPosition(10, this.y);
+    }
+
     super.update();
   }
 }

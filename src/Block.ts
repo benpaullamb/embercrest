@@ -5,6 +5,8 @@ interface BlockOptions extends Matter.IChamferableBodyDefinition {
   x: number;
   y: number;
   color: string;
+  width?: number;
+  height?: number;
 }
 
 export default class Block {
@@ -26,17 +28,22 @@ export default class Block {
   }
 
   protected body: Body;
+  protected width: number;
+  protected height: number;
+
   private color: string;
 
-  constructor({ x, y, color, ...bodyOptions }: BlockOptions) {
+  constructor({ x, y, color, width = 1, height = 1, ...bodyOptions }: BlockOptions) {
     this.color = color;
+    this.width = width;
+    this.height = height;
 
     bodyOptions.mass ??= 1;
     this.body = Bodies.rectangle(
       worldSpace(x + 0.5),
       descY(worldSpace(y + 0.5)),
-      Block.SIZE,
-      Block.SIZE,
+      worldSpace(this.width),
+      worldSpace(this.height),
       bodyOptions
     );
     Composite.add(window.world, this.body);
@@ -64,5 +71,11 @@ export default class Block {
   public applyForce(x: number, y: number) {
     const force = Vector.create(x, y);
     Body.applyForce(this.body, this.body.position, force);
+  }
+
+  public setPosition(x: number, y: number) {
+    const { camera } = window;
+    const position = Vector.create(worldSpace(x) + camera.x, descY(worldSpace(y)));
+    Body.setPosition(this.body, position);
   }
 }

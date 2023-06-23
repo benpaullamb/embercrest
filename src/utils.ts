@@ -26,3 +26,8 @@ export function rightBlock() {
   const { canvas } = window;
   return canvas.width / Block.SIZE - 1;
 }
+
+export function random(start = 0, end = 1, rounded = false) {
+  const value = start + Math.random() * (end - start);
+  return rounded ? Math.round(value) : value;
+}
